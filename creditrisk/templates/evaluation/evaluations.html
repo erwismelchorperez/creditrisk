@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+    <div class="container">
+
+        <div class="header">
+            <h2 class="mb-3 mt-3">{% block title %}Evaluaciones{% endblock %}</h2>
+            <div class="d-flex justify-content-between mb-3">
+                <p>¡Bienvenido al panel evaluaciones!</p>
+                <a href="{{ url_for('evaluation.create_evaluation') }}" class="btn btn-outline-success">Realizar Evaluación</a>
+            </div>
+        </div>
+        <table id="data" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th colspan="2" class="fs-5"> Evaluación</th>
+                    <th class="fs-5"> Fecha evaluación</th>
+                    <th colspan="2" class="fs-5">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for eval in evaluations | reverse %}
+                    {% if g.user.id == eval.evaluador %}
+                        <tr>
+                            <td> {{ loop.index + pagination.skip }} </td>
+                            <td> {{ eval.nombrecompleto }} </td>
+                            <td> {{ eval.domicilio }} </td>
+                            <td> {{ eval.fechaevaluation }} </td>
+                            <td>
+                                <a href="{{ url_for('evaluation.generarPDF',id_evaluation=eval.id_evaluation) }}" class="btn btn-sm "><i class="fa-regular fa-file-pdf"></i></a>
+                                <!--<a href="#" class="btn btn-sm btn-danger">Eliminar</a>-->
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor%}
+            </tbody>
+        </table>
+        {{ pagination.links }}
+    </div>
+    {% block scripts %}
+        <script>
+            $(document).ready(function () {
+                $('#data').DataTable({
+                    ajax: '/evaluations',
+                    serverSide: true,
+                    columns: [
+                    {data: 'nombrecompleto'},
+                    {data: 'domicilio', orderable: false},
+                    {data: 'fechaevaluation'}],
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
+

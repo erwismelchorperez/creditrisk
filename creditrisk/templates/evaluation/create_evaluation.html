@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <section>
+        <div class="container">
+            <div class="header mb-4 mt-4">
+                <h1 class="h2">{% block title %}Realizar Evaluación{% endblock %}</h1>
+            </div>
+            <div class="body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title text-primary">Datos personales</h3>
+                                    <div class="container">
+                                        <div class="row">
+                                          <div class="col-sm-9 p-3-3 p-3 mb-2">
+                                            <div class="form-group">
+                                                <label for="nombrecompleto">Nombre completo</label>
+                                                <input type="text" class="form-control" id="nombrecompleto" name="nombrecompleto" placeholder="Nombre y apellidos ">
+                                            </div>
+                                          </div>
+                                          <div class="col-3 p-3 mb-2">
+                                            <div class="form-group">
+                                                <label for="edad">Edad</label>
+                                                <input type="text" class="form-control" id="edad" name="edad" placeholder="Edad">
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group">
+                                        <label for="domicilio">Domicilio</label>
+                                        <input type="text" class="form-control" id="domicilio" name="domicilio" placeholder="Calle, barrio, ciudad">
+                                    </div>
+                                    <hr>
+                                    <div class="from-group">
+                                      <div class="container">
+                                          <div class="row">
+                                            <div class="col-sm-8 p-3-3 p-3 mb-2">
+                                              <div class="form-group">
+                                                  <label for="tipovivienda">Tipo vivienda</label>
+                                                  <select class="form-control" id="tipovivienda" name="tipovivienda">
+                                                      {% for tipo in tipoviviendas %}
+                                                          <option value="{{tipo.id}}">{{tipo.tipovivienda}}</option>
+                                                      {% endfor %}
+                                                    </select>
+                                              </div>
+                                            </div>
+                                            <div class="col-4 p-3 mb-2">
+                                              <div class="form-group">
+                                                  <label for="codigopostal">Código postal</label>
+                                                  <input type="text" class="form-control" id="codigopostal" name="codigopostal" placeholder="Código postal">
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <hr>
+                                    <div class="from-group">
+                                      <div class="container">
+                                          <div class="row">
+                                            <div class="col">
+                                              <div class="form-group">
+                                                  <label for="estadocivil">Estado civil</label>
+                                                  <select class="form-control" id="estadocivil" name="estadocivil">
+                                                      {% for tipo in estadociviles %}
+                                                          <option value="{{tipo.id}}">{{tipo.estadocivil}}</option>
+                                                      {% endfor %}
+                                                    </select>
+                                              </div>
+                                            </div>
+                                            <div class="col">
+                                              <div class="form-group">
+                                                  <label for="genero">Género</label>
+                                                  <select class="form-control" id="genero" name="genero">
+                                                    <option value="1">Femenino</option>
+                                                    <option value="2">Masculino</option>
+                                                  </select>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <hr>
+                                    <div class="from-group">
+                                      <div class="container">
+                                          <div class="row">
+                                            <div class="col">
+                                              <div class="form-group">
+                                                  <label for="dependientes">Dependientes</label>
+                                                  <input type="text" id="dependientes" name="dependientes" class="form-control">
+                                              </div>
+                                            </div>
+                                            <div class="col">
+                                              <div class="form-group">
+                                                  <label for="genero">Teléfono</label>
+                                                  <select class="form-control" id="telefono" name="telefono">
+                                                    <option value="0">No</option>
+                                                    <option value="1">Si</option>
+                                                  </select>
+                                              </div>
+                                            </div>
+                                            <div class="col">
+                                              <div class="form-group">
+                                                  <label for="remesas">¿Remesas?</label>
+                                                  <select class="form-control" id="remesas" name="remesas">
+                                                    <option value="0">No</option>
+                                                    <option value="1">Si</option>
+                                                  </select>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <hr>
+                                    <div class="from-group">
+                                      <div class="container">
+                                          <div class="row">
+                                            <div class="col">
+                                              <div class="form-group">
+                                                  <label for="ocupacion">Ocupación</label>
+                                                  <select class="form-control" onchange="onchangeOcupacion()" id="ocupacion" name="ocupacion">
+                                                      {% for ocupacion in ocupaciones %}
+                                                          <option value="{{ocupacion.actividadid}}">{{ocupacion.nombre}}</option>
+                                                      {% endfor %}
+                                                    </select>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group">
+                                      <label for="escolaridad">Escolaridad</label>
+                                      <select class="form-control" id="escolaridad" name="escolaridad">
+                                          {% for tipo in nivelacademicos %}
+                                              <option value="{{tipo.id}}">{{tipo.nivelacademico}}</option>
+                                          {% endfor %}
+                                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title text-primary">Datos crédito</h3>
+                                    <div class="from-group">
+                                      <div class="container">
+                                          <div class="row">
+                                            <div class="col-sm-8 p-3-3 p-3 mb-2">
+                                              <div class="form-group">
+                                                  <label for="tipoprestamo">Tipo crédito</label>
+                                                  <select class="form-control" onchange="onchangeTipoPrestamo()" id="tipoprestamo" name="tipoprestamo">
+                                                      {% for tipo in tipoprestamos %}
+                                                          <option value="{{tipo.id}}">{{tipo.desc_tipoprestamo}}</option>
+                                                      {% endfor %}
+                                                    </select>
+                                              </div>
+                                            </div>
+                                            <div class="col-4 p-3 mb-2">
+                                              <div class="form-group">
+                                                  <label for="finalidad">Finalidad crédito</label>
+                                                  <select class="form-control" id="finalidad" name="finalidad">
+                                                      {% for tipo in finalidades %}
+                                                          <option value="{{tipo.id}}">{{tipo.finalidad}} </option>
+                                                      {% endfor %}
+                                                    </select>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group">
+                                        <div class="container">
+                                            <div class="row">
+                                              <div class="col">
+                                                <label for="interesnormal">Tasa interés normal</label>
+                                                <input type="text" class="form-control" id="interesnormal" name="interesnormal" placeholder="interes normal">
+                                              </div>
+                                              <div class="col">
+                                                <label for="interesmora">Tasa interés moratorio</label>
+                                                <input type="text" class="form-control" id="interesmora" name="interesmora" placeholder="interes moratorio">
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="from-group">
+                                      <div class="container">
+                                          <div class="row">
+                                            <div class="col">
+                                              <label for="monto">Monto</label>
+                                              <div class="input-group mb-3">
+                                                <span class="input-group-text">$</span>
+                                                <input type="text" id="monto" name="monto" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                                <span class="input-group-text">.00</span>
+                                              </div>
+                                            </div>
+                                            <div class="col">
+                                              <label for="plazo">Plazo</label>
+                                              <div class="input-group mb-3">
+                                                <input type="text" id="plazo" name="plazo" class="form-control">
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="card-body">
+                                    <h3 class="card-title text-primary">Ingreso y egreso</h3>
+                                    <div class="from-group">
+                                      <div class="container">
+                                          <div class="row">
+                                            <div class="col">
+                                              <label for="ingreso">Ingreso</label>
+                                              <div class="input-group mb-3">
+                                                <span class="input-group-text">$</span>
+                                                <input type="text" id="ingreso" name="ingreso" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                                <span class="input-group-text">.00</span>
+                                              </div>
+                                            </div>
+                                            <div class="col">
+                                              <label for="egreso">Egreso</label>
+                                              <div class="input-group mb-3">
+                                                <span class="input-group-text">$</span>
+                                                <input type="text" id="egreso" name="egreso" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                                <span class="input-group-text">.00</span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group">
+                                          <div class="container">
+                                            <div class="row">
+                                              <div class="col">
+                                                <label for="avales">Avales</label>
+                                                <input type="text" id="avales" name="avales" class="form-control">
+                                              </div>
+                                              <div class="col">
+                                                <label for="bien">Bien</label>
+                                                <select class="form-control" id="bien" name="bien">
+                                                    {% for bien in bienes %}
+                                                        <option value="{{bien.id}}">{{bien.bien}}</option>
+                                                    {% endfor %}
+                                                  </select>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group">
+                                      <div class="container">
+                                        <div class="row">
+                                          <div class="col">
+                                            <label for="creditostrabajados">Creditos trabajados</label>
+                                            <input type="text" id="creditostrabajados" name="creditostrabajados" class="form-control">
+                                          </div>
+                                          <div class="col">
+                                            <label for="ingreso">Monto Garantía</label>
+                                            <div class="input-group mb-3">
+                                              <span class="input-group-text">$</span>
+                                              <input type="text" id="montogarantia" name="montogarantia" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                              <span class="input-group-text">.00</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <button type="submit" class="btn btn-primary">Evaluar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+<script type="text/javascript">
+  tipoprestamo = document.getElementById('tipoprestamo')
+  finalidad = document.getElementById('finalidad')
+  interesmora = document.getElementById('interesmora')
+  interesnormal = document.getElementById('interesnormal')
+
+
+  ocupacion = document.getElementById('ocupacion')
+  function onchangeOcupacion() {
+    console.log(ocupacion.value)    
+  }
+  function onchangeTipoPrestamo(){
+    fetch('evaluations_tipoprestamo/' + tipoprestamo.value).then(function(response){
+      response.json().then(function(data) {
+          optionHTML = '';
+          console.log(" TipoPrestamo:        " + JSON.stringify(data))
+          console.log("                      " + data[0].finalidad)
+          finalidad.value = data[0].finalidad
+          interesmora.value = data[0].tasa_mora
+          interesnormal.value = data[0].tasa_normal
+      });
+    });
+  }
+</script>
+{% endblock %}

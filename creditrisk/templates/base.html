@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlogPosts - {% block title %}{% endblock %}</title>
+
+    <!-- Estilos de bootstrap y de app -->
+    <link rel="stylesheet" href=" {{ url_for('static', filename = 'css/bootstrap.min.css')}} ">
+    <link rel="stylesheet" href=" {{ url_for('static', filename = 'css/style.css')}} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/all.min.css' )}}">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+    {% block head %}
+    {% endblock %}
+
+</head>
+
+<body>
+    {% block header %}
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="{{ url_for('home.index') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img src=" {{ url_for('static', filename = 'img/logo.png')}} " alt="blog posts" width="45">
+                </a>
+
+                <div class="text-end">
+
+                    {% if not g.user %}
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light me-2">Iniciar sesión</a>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-warning">Registrate</a>
+                    {% else %}
+                    <a href="#" class="link-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                        {% if g.user.photo  is none %}
+                            <img src="{{ url_for('static', filename = 'img/user-light.png') }}" alt="mdo" width="32" height="32" class="rounded-circle">
+                        {% else %}
+                            <img src=" {{ url_for('static', filename = g.user.photo )}} " alt="blog posts" width="40">
+                        {% endif %}
+                    </a>
+                    <ul class="dropdown-menu text-small">
+
+                        <li>
+                            <span class="dropdown-item fw-bold">¡Hola, {{ g.user.username }} </span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ url_for('evaluation.create_evaluation') }}">
+                                <span class="d-inline-block bg-success rounded-circle p-1"></span>
+                                Crear Evaluación
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ url_for('evaluation.evaluations') }}">
+                                <span class="d-inline-block bg-primary rounded-circle p-1"></span>
+                                Evaluaciones
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ url_for('auth.profile', id = g.user.id ) }}">
+                                <span class="d-inline-block bg-info rounded-circle p-1"></span>
+                                Perfil
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{{ url_for('auth.logout') }}">
+                                <span class="d-inline-block bg-danger rounded-circle p-1"></span>
+                                Cerrar sesión
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif%}
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    {% endblock %}
+
+    {% for massage in get_flashed_messages() %}
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="alert {% block message %} alert-danger {% endblock %}" role="alert" >
+                        {{ massage }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- Sección de bloque de contenido -->
+    {% block content %}
+    {% endblock %}
+
+
+    <script src=" {{ url_for('static', filename = 'js/bootstrap.bundle.min.js')}} "></script>
+    {{ ckeditor.load() }}
+</body>
+
+</html>
