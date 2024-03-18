@@ -194,13 +194,12 @@ def create_evaluation():
             print("Grupo al que pertenece:    ",grupo[0][0])
             print("Persona a evaluar:         ",persona_transform)
         """
-
-        
+        """
         #  Inicia la implementación con árboles de decisión.
-        arbol = joblib.load("./creditrisk/static/modeloml/DecisionTree.joblib")
+        arbol = joblib.load("./creditrisk/static/modeloml/DecisionTree.pkl")
         proba_dt = arbol.predict_proba(persona_transform.reshape(1,-1))
         #  Termina la implementación con árboles de decisión.
-        
+        """
         #  Inicia la implementación con regresión lineal
         linealregresion = joblib.load("./creditrisk/static/modeloml/RL.pkl")
         proba_lr = linealregresion.predict_proba(persona_transform.reshape(1,-1))
@@ -212,19 +211,19 @@ def create_evaluation():
         #  Termina la implementación con redes neuronales
 
         #  Inicia la implementación con máquinas de soporte vectorial
-        svm = joblib.load("./creditrisk/static/modeloml/SVM.pkl")
+        svm = joblib.load("./creditrisk/static/modeloml/SVM.joblib")
         proba_svm = svm.predict(persona_transform.reshape(1,-1))
         #  Termina la implementación con máquinas de soporte vectorial
-
+        """
         #  Inicia la implementación con máquinas de XGBoost
         xgboost = joblib.load("./creditrisk/static/modeloml/XGBoost.joblib")
         proba_xgboost = xgboost.predict_proba(persona_transform.reshape(1,-1))
         #  Termina la implementación con máquinas de XGBoost
-
-
-        print("Predicción de la evaluación:     ", proba_dt, " " , proba_lr, " ", proba_rnn, " ", proba_svm, " ", proba_xgboost)
-        
         """
+
+        print("Predicción de la evaluación:     ", proba_lr, " ", proba_rnn, " ", proba_svm)
+        
+        
         db.session.add(evaluacion)
         db.session.commit()
         print("id nuevo de la alta    ------>  " + str(evaluacion.id_evaluation) )
@@ -259,7 +258,7 @@ def create_evaluation():
         # prediction.xgboost_class1 = proba_xgboost[0][1]
         
         db.session.commit()
-        """
+        
         return redirect(url_for('evaluation.evaluations'))
 
     return render_template('evaluation/create_evaluation.html', tipoviviendas = tipoviviendas, finalidades = finalidades, tipoprestamos = tipoprestamos, nivelacademicos = nivelacademicos, estadociviles = estadociviles, ocupaciones = ocupaciones, bienes = bienes)
