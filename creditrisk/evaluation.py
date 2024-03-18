@@ -195,47 +195,44 @@ def create_evaluation():
             print("Persona a evaluar:         ",persona_transform)
         """
 
-        #  Vamos a realizar la implementación con DT.
-        # arbol = joblib.load("./creditrisk/static/modeloml/DecisionTree.pkl")
+        
+        #  Inicia la implementación con árboles de decisión.
+        arbol = joblib.load("./creditrisk/static/modeloml/DecisionTree.joblib")
+        proba_dt = arbol.predict_proba(persona_transform.reshape(1,-1))
+        #  Termina la implementación con árboles de decisión.
+        
+        #  Inicia la implementación con regresión lineal
         linealregresion = joblib.load("./creditrisk/static/modeloml/RL.pkl")
-        redesneuronales = keras.models.load_model('./creditrisk/static/modeloml/RNN.h5')
-        svm = joblib.load("./creditrisk/static/modeloml/SVM.pkl")
-        # xgboost = joblib.load("./creditrisk/static/modeloml/XGBoost.joblib")
-
-        #pred_dt = arbol.predict(persona_transform.reshape(1,-1))
-        pred_lr = linealregresion.predict(persona_transform.reshape(1,-1))
-        #pred_rnn = redesneuronales.predict(persona_transform.reshape(1,-1))
-        pred_svm = svm.predict(persona_transform.reshape(1,-1))
-        # pred_xgboost = xgboost.predict(persona_transform.reshape(1,-1))
-
-
-        #print("Predicción de la evaluación:     ", pred_dt, " " , pred_lr, " ", pred_rnn, " ", pred_svm, " ", pred_xgboost)
-        # print("Predicción de la evaluación:     ", pred_dt, " " , pred_lr, " ", pred_svm, " ")
-        print("Predicción de la evaluación:      " , pred_lr, " ", pred_svm, " ")
-        # proba_dt = arbol.predict_proba(persona_transform.reshape(1,-1))
         proba_lr = linealregresion.predict_proba(persona_transform.reshape(1,-1))
+        #  Termina la implementación con regresión lineal
+
+        #  Inicia la implementación con redes neuronales
+        redesneuronales = keras.models.load_model('./creditrisk/static/modeloml/RNN.h5')
         proba_rnn = redesneuronales.predict(persona_transform.reshape(1,-1))
+        #  Termina la implementación con redes neuronales
+
+        #  Inicia la implementación con máquinas de soporte vectorial
+        svm = joblib.load("./creditrisk/static/modeloml/SVM.pkl")
         proba_svm = svm.predict(persona_transform.reshape(1,-1))
-        # proba_xgboost = xgboost.predict_proba(persona_transform.reshape(1,-1))
+        #  Termina la implementación con máquinas de soporte vectorial
 
-        #print("Predicción de la evaluación:     ", pred_dt)
-        #print("Predicción de la evaluación:     ", pred_dt[0], "    " , pred_svm[0], "    " , pred_lr[0])
+        #  Inicia la implementación con máquinas de XGBoost
+        xgboost = joblib.load("./creditrisk/static/modeloml/XGBoost.joblib")
+        proba_xgboost = xgboost.predict_proba(persona_transform.reshape(1,-1))
+        #  Termina la implementación con máquinas de XGBoost
 
 
+        print("Predicción de la evaluación:     ", proba_dt, " " , proba_lr, " ", proba_rnn, " ", proba_svm, " ", proba_xgboost)
+        
+        """
         db.session.add(evaluacion)
         db.session.commit()
-        # print("id nuevo de la alta    ------>  " + str(evaluacion.id_evaluation) , "     ", type(grupo[0][0]), "   ",grupo[0][0])
         print("id nuevo de la alta    ------>  " + str(evaluacion.id_evaluation) )
         new_evaluationid = evaluacion.id_evaluation
 
         new_prediction = Prediction.query.filter_by(idvalidacion = new_evaluationid).first()
-
         print(new_prediction.idvalidacion, new_prediction.id)
-
         group = 0
-        #if grupo[0][0] == 1:
-            #group = 1
-
         ### actualizar los campos para predicción
         prediction = Prediction.query.get_or_404(new_prediction.id)
         print("Imprimiendo prediccion -----> ",prediction)
@@ -262,6 +259,7 @@ def create_evaluation():
         # prediction.xgboost_class1 = proba_xgboost[0][1]
         
         db.session.commit()
+        """
         return redirect(url_for('evaluation.evaluations'))
 
     return render_template('evaluation/create_evaluation.html', tipoviviendas = tipoviviendas, finalidades = finalidades, tipoprestamos = tipoprestamos, nivelacademicos = nivelacademicos, estadociviles = estadociviles, ocupaciones = ocupaciones, bienes = bienes)
