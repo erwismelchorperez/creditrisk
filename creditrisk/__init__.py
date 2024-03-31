@@ -29,6 +29,9 @@ def create_app():
     from creditrisk import evaluation
     app.register_blueprint(evaluation.bp)
 
+    from creditrisk import cartera
+    app.register_blueprint(cartera.bp)
+
     from .models import User, Post, Entidad
     
     with app.app_context():

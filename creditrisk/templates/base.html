@@ -14,7 +14,7 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
     {% block head %}
     {% endblock %}
@@ -25,11 +25,21 @@
     {% block header %}
     <header class="p-3 text-bg-dark">
         <div class="container">
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center justify-content-between ">
                 <a href="{{ url_for('home.index') }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                     <img src=" {{ url_for('static', filename = 'img/logo.png')}} " alt="blog posts" width="45">
                 </a>
-
+                <!-- vamos a intentar colocar un menú enmedio -->
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="{{ url_for('cartera.dashboard') }}" class="nav-link px-2 text-white">Cartera</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Captación</a></li>
+                    <!--
+                        <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+                        <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+                        <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                    -->
+                </ul>
+                <!-- vamos a intentar colocar un menú enmedio -->
                 <div class="text-end">
 
                     {% if not g.user %}
@@ -44,7 +54,6 @@
                         {% endif %}
                     </a>
                     <ul class="dropdown-menu text-small">
-
                         <li>
                             <span class="dropdown-item fw-bold">¡Hola, {{ g.user.username }} </span>
                         </li>
