@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<!--
+    esto es para crear gráficas
+    https://www.geeksforgeeks.org/how-to-add-graphs-to-flask-apps/  
+
+    esto es para subir archivos en excel
+    https://www.geeksforgeeks.org/uploading-and-reading-a-csv-file-in-flask/
+-->
+    <div class="container">
+
+        <div class="header">
+            <h2 class="mb-3 mt-3">{% block title %} Cargar reporte de cartera {% endblock %}</h2>
+            <div class="d-flex justify-content-between mb-3">
+                <p>Cargar reporte de cartera mensual</p>
+            </div>
+            <div class="container-sm">
+                <form method="post"  action="" enctype="multipart/form-data">
+                    <input type="file" name="file" accept=".csv">
+                    <button type="submit" class="btn btn-primary">Cargar CSV</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
