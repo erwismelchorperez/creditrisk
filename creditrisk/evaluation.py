@@ -1,6 +1,7 @@
 from flask import Blueprint, request, flash, redirect, url_for, g, render_template, jsonify, json, Response
 from .auth import login_required
 from .models import TipoVivienda, Evaluation, Finalidad, TipoPrestamo, NivelAcademico, EstadoCivil, ActividadSiti, Bien, Prediction
+from .models import eiz_Tipocredito, eiz_Finalidades, eiz_Estadocivil, eiz_Actividadsiti, eiz_Nivelacademico
 from creditrisk import db
 import numpy as np
 
@@ -32,8 +33,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
 
 scaler = joblib.load('./creditrisk/static/modeloml/scaler.save')
-kmeans = joblib.load('./creditrisk/static/modeloml/kmeans.pkl')
-pca = joblib.load('./creditrisk/static/modeloml/pca.pkl')
+#kmeans = joblib.load('./creditrisk/static/modeloml/kmeans.pkl')
+#pca = joblib.load('./creditrisk/static/modeloml/pca.pkl')
 
 
 """
@@ -86,7 +87,6 @@ def evaluations():
     # you can set PER_PAGE_PARAMETER in config file
     # e.g. Pagination(per_page_parameter='pp')
 
-
     return render_template('evaluation/evaluations.html', evaluations = evaluations, pagination=pagination)
     
 
@@ -94,12 +94,12 @@ def evaluations():
 @login_required
 def evaluations_tipoprestamo(tipoprestamoid):
     print("tipoprestamo impresion", tipoprestamoid)
-    tipoprestamo = TipoPrestamo.query.filter_by(id = tipoprestamoid).all()
-
+    #tipoprestamo = TipoPrestamo.query.filter_by(id = tipoprestamoid).all()
+    tipoprestamo = eiz_Tipocredito.query.filter_by(tipoprestamoid = tipoprestamoid).all()
     TipoPrestamo_Filtrado = []
     for tipo in tipoprestamo:
         Obj = {}
-        Obj['id'] = tipo.id
+        Obj['id'] = tipo.tipoprestamoid
         Obj['finalidad'] = tipo.finalidad
         Obj['tasa_normal'] = tipo.tasa_normal
         Obj['tasa_mora'] = tipo.tasa_mora
@@ -113,12 +113,16 @@ def evaluations_tipoprestamo(tipoprestamoid):
 @login_required
 def create_evaluation():
     tipoviviendas = TipoVivienda.query.all()
-    finalidades = Finalidad.query.all()
-    #tipoprestamos = TipoPrestamo.query.all()
-    tipoprestamos = TipoPrestamo.query.filter(TipoPrestamo.desc_tipoprestamo != None).all()
-    nivelacademicos = NivelAcademico.query.all()
-    estadociviles = EstadoCivil.query.all()
-    ocupaciones = ActividadSiti.query.all()
+    #finalidades = Finalidad.query.all()
+    finalidades = eiz_Finalidades.query.all()
+    #tipoprestamos = TipoPrestamo.query.filter(TipoPrestamo.desc_tipoprestamo != None).all()
+    tipoprestamos = eiz_Tipocredito.query.filter(eiz_Tipocredito.desctipoprestamo != None).all()
+    #nivelacademicos = NivelAcademico.query.all()
+    nivelacademicos = eiz_Nivelacademico.query.all()
+    #estadociviles = EstadoCivil.query.all()
+    estadociviles = eiz_Estadocivil.query.all()
+    #ocupaciones = ActividadSiti.query.all()
+    ocupaciones = eiz_Actividadsiti.query.all()
     bienes = Bien.query.all()
     if request.method == 'POST':
 
@@ -160,6 +164,12 @@ def create_evaluation():
             "codigopostal","tipovivienda","dependientes","estadocivil","genero","claveactividad","nivelacademico",
             "telefono","ingreso","egreso","tipoprestamo","tasanormal","tasamoratoria","monto","avales","creditostrabajados",
             "bien","montogarantia","finalidad","remesas","plazo",
+
+            'montoprestamo', 'numero_amortizacion', 'tasanormal', 'tasamora',
+            'plazo', 'edad', 'estadocivilid', 'codigopostal', 'nivelacademicoid',
+            'generoid', 'actividadid', 'tipoprestamoid', 'creditostrabajados',
+            'montogarantia', 'numavales', 'numdependientes', 'clavefinalidad',
+            'ingreso', 'egreso', 'telefono', 'remesas
         """
         ## vamos a leer un registro para que lo podamos enviar a 
         # 2,7,2,0,2,1,9999999,4,1,0.0,1.0,0,0,5,1.0,2,0,1,10.0,2,0,0,0    --> malo

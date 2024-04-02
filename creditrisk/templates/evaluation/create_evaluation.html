@@ -67,7 +67,7 @@
                                                   <label for="estadocivil">Estado civil</label>
                                                   <select class="form-control" id="estadocivil" name="estadocivil">
                                                       {% for tipo in estadociviles %}
-                                                          <option value="{{tipo.id}}">{{tipo.estadocivil}}</option>
+                                                          <option value="{{tipo.estadocivilid}}">{{tipo.descripcion}}</option>
                                                       {% endfor %}
                                                     </select>
                                               </div>
@@ -126,7 +126,7 @@
                                                       {% for ocupacion in ocupaciones %}
                                                           <option value="{{ocupacion.actividadid}}">{{ocupacion.nombre}}</option>
                                                       {% endfor %}
-                                                    </select>
+                                                  </select>
                                               </div>
                                             </div>
                                           </div>
@@ -137,7 +137,7 @@
                                       <label for="escolaridad">Escolaridad</label>
                                       <select class="form-control" id="escolaridad" name="escolaridad">
                                           {% for tipo in nivelacademicos %}
-                                              <option value="{{tipo.id}}">{{tipo.nivelacademico}}</option>
+                                              <option value="{{tipo.nivelacademicoid}}">{{tipo.descripcion}}</option>
                                           {% endfor %}
                                       </select>
                                     </div>
@@ -156,7 +156,7 @@
                                                   <label for="tipoprestamo">Tipo crédito</label>
                                                   <select class="form-control" onchange="onchangeTipoPrestamo()" id="tipoprestamo" name="tipoprestamo">
                                                       {% for tipo in tipoprestamos %}
-                                                          <option value="{{tipo.id}}">{{tipo.desc_tipoprestamo}}</option>
+                                                          <option value="{{tipo.tipoprestamoid}}">{{tipo.desctipoprestamo}}</option>
                                                       {% endfor %}
                                                     </select>
                                               </div>
@@ -166,7 +166,7 @@
                                                   <label for="finalidad">Finalidad crédito</label>
                                                   <select class="form-control" id="finalidad" name="finalidad">
                                                       {% for tipo in finalidades %}
-                                                          <option value="{{tipo.id}}">{{tipo.finalidad}} </option>
+                                                          <option value="{{tipo.finalidadid}}">{{tipo.descripcion}} </option>
                                                       {% endfor %}
                                                     </select>
                                               </div>
@@ -244,6 +244,7 @@
                                                 <label for="avales">Avales</label>
                                                 <input type="text" id="avales" name="avales" class="form-control">
                                               </div>
+                                              <!--
                                               <div class="col">
                                                 <label for="bien">Bien</label>
                                                 <select class="form-control" id="bien" name="bien">
@@ -252,6 +253,7 @@
                                                     {% endfor %}
                                                   </select>
                                               </div>
+                                              -->
                                             </div>
                                         </div>
                                     </div>

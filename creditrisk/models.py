@@ -247,6 +247,65 @@ class Prediction(db.Model):
     def __repr__(self):
         return f"prediction: '{self.id} {self.idvalidacion}' "
 
-    
-    
-    
+############ vamos a checar conexión con la base de datos de EIZ
+class eiz_Tipocredito(db.Model):
+    __bind_key__ = 'eiz001'
+    __tablename__ = 'tipocredito'
+    tipoprestamoid = db.Column(db.String(2), primary_key=True)
+    desctipoprestamo = db.Column(db.String(30))
+    finalidad = db.Column(db.Integer)
+    tasa_normal = db.Column(db.Integer)
+    tasa_mora = db.Column(db.Integer)
+
+    def __init__(self, tipoprestamoid, desctipoprestamo, finalidad, tasa_normal, tasa_mora):
+        self.tipoprestamoid = tipoprestamoid
+        self.desctipoprestamo = desctipoprestamo
+        self.finalidad = finalidad
+        self.tasa_normal = tasa_normal
+        self.tasa_mora = tasa_mora
+class eiz_Finalidades(db.Model):
+    __bind_key__ = 'eiz001'
+    __tablename__ = 'finalidades'
+    finalidadid = db.Column(db.Integer, primary_key=True)
+    descripcion = db.Column(db.Text)
+
+    def __init__(self, finalidadid, descripcion):
+        self.finalidadid = finalidadid
+        self.descripcion = descripcion
+class eiz_Estadocivil(db.Model):
+    __bind_key__ = 'eiz001'
+    __tablename__ = 'estadocivil'
+    estadocivilid = db.Column(db.Integer, primary_key=True)
+    descripcion = db.Column(db.String(15), nullable = False)
+
+    def __init__(self, estadocivilid, descripcion):
+        self.estadocivilid = estadocivilid
+        self.descripcion = descripcion
+class eiz_Actividadsiti(db.Model):
+    __bind_key__ = 'eiz001'
+    __tablename__ = 'actividades_economicas_siti'
+    actividadid = db.Column(db.String(12), primary_key=True)
+    nombre = db.Column(db.String(120))
+    siti_no = db.Column(db.Integer)
+    nivelriesgo = db.Column(db.Integer)
+
+    def __init__(self, actividadid, nombre, siti_no, nivelriesgo):
+        self.actividadid = actividadid
+        self.nombre = nombre
+        self.siti_no = siti_no
+        self.nivelriesgo = nivelriesgo
+
+    def __repr__(self):
+        return f"ActividadSiti: '{self.actividadid}' '{self.nombre}'"
+class eiz_Nivelacademico(db.Model):
+    __bind_key__ = 'eiz001'
+    __tablename__ = 'nivelacademico'
+    nivelacademicoid = db.Column(db.Integer, primary_key=True)
+    descripcion = db.Column(db.String(20), nullable = False)
+
+    def __init__(self, nivelacademicoid, descripcion):
+        self.nivelacademicoid = nivelacademicoid
+        self.descripcion = descripcion
+
+    def __repr__(self):
+        return f"NivelAcademico: '{self.nivelacademicoid}'"
