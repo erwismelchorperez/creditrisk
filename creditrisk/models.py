@@ -251,7 +251,7 @@ class Prediction(db.Model):
 class eiz_Tipocredito(db.Model):
     __bind_key__ = 'eiz001'
     __tablename__ = 'tipocredito'
-    tipoprestamoid = db.Column(db.String(2), primary_key=True)
+    tipoprestamoid = db.Column(db.String(3), primary_key=True)
     desctipoprestamo = db.Column(db.String(30))
     finalidad = db.Column(db.Integer)
     tasa_normal = db.Column(db.Integer)
