@@ -153,23 +153,19 @@ def create_evaluation():
         
 
         evaluacion = Evaluation(g.user.id, nombrecompleto, domicilio, edad, codigopostal, tipovivienda, dependientes, estadocivil, genero, ocupacion, nivelacademico, 
-                                telefono, ingreso, egreso, tipoprestamo, tasanormal, tasamoratoria, monto, avales, creditostrabajados, bien, montogarantia, finalidad, 
+                                telefono, ingreso, egreso, tipoprestamo, tasanormal, tasamoratoria, monto, avales, creditostrabajados, 0, montogarantia, finalidad, 
                                 remesas, plazo, None)
         print("ocupación:    ", ocupacion)
         print(evaluacion.__repr__)
-        cad_evaluacion = np.array([[int(edad),int(codigopostal), int(tipovivienda), int(dependientes), int(estadocivil), int(genero), int(ocupacion), int(nivelacademico),
-                         int(telefono), float(ingreso), float(egreso), int(tipoprestamo), float(tasanormal), float(tasamoratoria), float(monto), int(avales), int(creditostrabajados),
-                         int(bien),float(montogarantia), int(finalidad),int(remesas), int(plazo)]])
+        #cad_evaluacion = np.array([[int(edad),int(codigopostal), int(tipovivienda), int(dependientes), int(estadocivil), int(genero), int(ocupacion), int(nivelacademico),int(telefono), float(ingreso), float(egreso), int(tipoprestamo), float(tasanormal), float(tasamoratoria), float(monto), int(avales), int(creditostrabajados), int(bien),float(montogarantia), int(finalidad),int(remesas), int(plazo)]])
         """
             "codigopostal","tipovivienda","dependientes","estadocivil","genero","claveactividad","nivelacademico",
             "telefono","ingreso","egreso","tipoprestamo","tasanormal","tasamoratoria","monto","avales","creditostrabajados",
             "bien","montogarantia","finalidad","remesas","plazo",
-
-            'montoprestamo', 'numero_amortizacion', 'tasanormal', 'tasamora',
-            'plazo', 'edad', 'estadocivilid', 'codigopostal', 'nivelacademicoid',
-            'generoid', 'actividadid', 'tipoprestamoid', 'creditostrabajados',
-            'montogarantia', 'numavales', 'numdependientes', 'clavefinalidad',
-            'ingreso', 'egreso', 'telefono', 'remesas
+        """
+        cad_evaluacion = np.array([[float(monto),float(tasanormal), float(tasamoratoria),int(plazo), int(edad), int(estadocivil), int(codigopostal), int(nivelacademico), int(genero), int(ocupacion), int(tipoprestamo), int(creditostrabajados), float(montogarantia), int(avales), int(dependientes), int(finalidad), float(egreso), float(ingreso),  int(telefono), int(remesas), int(tipovivienda)]])
+        """
+            'montoprestamo', 'tasanormal', 'tasamora', 'plazo', 'edad','estadocivilid', 'codigopostal', 'nivelacademicoid', 'generoid','actividadid', 'tipoprestamoid', 'creditostrabajados', 'montogarantia','numavales', 'numdependientes', 'clavefinalidad', 'ingreso', 'egreso','telefono', 'remesas', 'tipovivienda'
         """
         ## vamos a leer un registro para que lo podamos enviar a 
         # 2,7,2,0,2,1,9999999,4,1,0.0,1.0,0,0,5,1.0,2,0,1,10.0,2,0,0,0    --> malo
@@ -281,8 +277,10 @@ def generarPDF(id_evaluation):
     tipovivienda = TipoVivienda.query.filter_by(id = evaluation[0].tipovivienda) 
     actividadsiti = ActividadSiti.query.filter_by(actividadid = evaluation[0].ocupacion)
     escolaridad = NivelAcademico.query.filter_by(id = evaluation[0].nivelacademico)
-    tipocredito = TipoPrestamo.query.filter_by(id = evaluation[0].tipoprestamo)
-    finalidad = Finalidad.query.filter_by(id = evaluation[0].finalidad)
+    #tipocredito = TipoPrestamo.query.filter_by(id = evaluation[0].tipoprestamo)
+    tipocredito = eiz_Tipocredito.query.filter_by(tipoprestamoid = str(evaluation[0].tipoprestamo))
+    #finalidad = Finalidad.query.filter_by(id = evaluation[0].finalidad)
+    finalidad = eiz_Finalidades.query.filter_by(finalidadid = evaluation[0].finalidad)
     bien = Bien.query.filter_by(id = evaluation[0].bien)
     prediction = Prediction.query.filter_by(idvalidacion = id_evaluation)
 
@@ -313,9 +311,9 @@ def generarPDF(id_evaluation):
     pdf.getRemesas(remesas)
     pdf.getOcupacion(actividadsiti[0].nombre)
     pdf.getEscolaridad(escolaridad[0].nivelacademico)
-    pdf.getTipoprestamo(tipocredito[0].desc_tipoprestamo)
-    pdf.getFinalidad(finalidad[0].finalidad)
-    pdf.getBien(bien[0].bien)
+    pdf.getTipoprestamo(tipocredito[0].desctipoprestamo)
+    pdf.getFinalidad(finalidad[0].descripcion)
+    #pdf.getBien(bien[0].bien)
     pdf.getGrupo(prediction[0].grupo)
     class0 = (prediction[0].rl_class0 + prediction[0].svm_class0 + prediction[0].rnn_class0)/3
     class1 = (prediction[0].rl_class1 + prediction[0].svm_class1 + prediction[0].rnn_class1)/3

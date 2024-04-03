@@ -1,5 +1,6 @@
 from fpdf import FPDF
 from .models import TipoVivienda, Evaluation, Finalidad, TipoPrestamo, NivelAcademico, EstadoCivil, ActividadSiti, Bien
+from .models import eiz_Tipocredito
 import locale
 title = 'Reporte solicitud - recomendación'
 analisisG0 = "Analisis para el grupo 0"
@@ -262,14 +263,14 @@ class PDF(FPDF):
 
         # Bien
         y = y + 8
-        self.text(15, y, "Bien:")
-        self.set_xy(28, y - 5)
-        self.set_fill_color(206, 251, 248)
-        self.multi_cell(70, 6, self.bien.strip(), fill=1)
+        #self.text(15, y, "Bien:")
+        #self.set_xy(28, y - 5)
+        #self.set_fill_color(206, 251, 248)
+        #self.multi_cell(70, 6, self.bien.strip(), fill=1)
 
         # Monto garantía
-        self.text(105, y, "Valor garantía:")
-        self.set_xy(134, y - 5)
+        self.text(15, y, "Valor garantía:")
+        self.set_xy(44, y - 5)
         self.set_fill_color(206, 251, 248)
         self.cell(30, 6, "   " + str(locale.currency(evaluation[0].montogarantia, grouping=True) ), 0, 1, 'L', 1)
     def AnalisisCredito(self, evaluation):
